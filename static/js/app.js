@@ -1,8 +1,7 @@
+// Define the data source
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
-// This makes a call to the json data and uses it to populate the dropdown. 
-// This only needs to occur once, since the data does not update live.
-// Then once the dropdown is filled with the initial value, optionChanged is called so that everything populates.
+// Make a call to the json data and use it to populate the dropdown. 
 d3.json(url).then(function(incomingData) {
     
   //Populate the dropdown
@@ -17,8 +16,7 @@ d3.json(url).then(function(incomingData) {
   optionChanged(d3.select("#selDataset").property("value"));
 });
 
-// This function is used in optionChanged which feeds it the top 10 OTUs and the labels.
-// From there a bar chart is created.
+// Define a function to create the Horizontal Bar Chart
 function CreateHBar(x,y,text) {
   var data = [{
       type: 'bar',
@@ -35,8 +33,7 @@ function CreateHBar(x,y,text) {
   Plotly.newPlot('bar', data, layout);
 }
 
-// This function is used in optionChanged which feeds it all 10 OTUs and the labels.
-// From there a bubble chart is created.
+// Define a function to define the Bubble chart
 function CreateBubble(x,y,text) {
   var data = [{
       x: x,
@@ -59,6 +56,8 @@ function CreateBubble(x,y,text) {
   Plotly.newPlot('bubble', data, layout);
 }
 
+
+// Define a function to populate the Demographic Info section
 function Meta(data) {
   var div = d3.select("#sample-metadata");
   div.html("")
@@ -68,7 +67,7 @@ function Meta(data) {
    });
 }
 
-// This 'master function' loads in the json data and executes each function so all charts are populated.
+// Create a 'master function' to load the json data and executes each function so all charts are populated.
 function optionChanged(value) {
   d3.json(url).then(function(incomingData) {
       var metadata = incomingData.metadata.filter(data => data.id ==value);
